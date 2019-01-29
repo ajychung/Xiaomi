@@ -164,26 +164,26 @@ private Map getBatteryResult(rawValue) {
 
 private Map parseCustomMessage(String description) {
 	if (description?.startsWith('on/off: ')) {
-    	if (description == 'on/off: 0') 		//button pressed
-    		return createPressEvent(1)
-    	else if (description == 'on/off: 1') 	//button released
+    	//if (description == 'on/off: 0') 		//button pressed
+    		//return createPressEvent(1)
+    	//else if (description == 'on/off: 1') 	//button released
     		return createButtonEvent(1)
 	}
 }
 
 //this method determines if a press should count as a push or a hold and returns the relevant event type
 private createButtonEvent(button) {
-	def currentTime = now()
-    def startOfPress = device.latestState('lastPress').date.getTime()
-    def timeDif = currentTime - startOfPress
-    def holdTimeMillisec = (settings.holdTime?:3).toInteger() * 1000
+	//def currentTime = now()
+    //def startOfPress = device.latestState('lastPress').date.getTime()
+    //def timeDif = currentTime - startOfPress
+    //def holdTimeMillisec = (settings.holdTime?:3).toInteger() * 1000
     
-    if (timeDif < 0) 
-    	return []	//likely a message sequence issue. Drop this press and wait for another. Probably won't happen...
-    else if (timeDif < holdTimeMillisec) 
+    //if (timeDif < 0) 
+    	//return []	//likely a message sequence issue. Drop this press and wait for another. Probably won't happen...
+    //else if (timeDif < holdTimeMillisec) 
     	return createEvent(name: "button", value: "pushed", data: [buttonNumber: button], descriptionText: "$device.displayName button $button was pushed", isStateChange: true)
-    else 
-    	return createEvent(name: "button", value: "held", data: [buttonNumber: button], descriptionText: "$device.displayName button $button was held", isStateChange: true)
+    //else 
+    	//return createEvent(name: "button", value: "held", data: [buttonNumber: button], descriptionText: "$device.displayName button $button was held", isStateChange: true)
 }
 
 private createPressEvent(button) {
